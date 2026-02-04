@@ -14,6 +14,11 @@ export const sv = {
     language: "Språk",
     english: "Engelska",
     swedish: "Svenska",
+    dutch: "Nederländska",
+    spanish: "Spanska",
+    french: "Franska",
+    german: "Tyska",
+    italian: "Italienska",
   },
   onboarding: {
     newJourney: "Starta en ny resa",

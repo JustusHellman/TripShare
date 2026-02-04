@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { Trip, AppView, Person, Expense, TripHistoryItem } from './types';
@@ -32,9 +31,7 @@ const AppContent: React.FC = () => {
   const [editingExpense, setEditingExpense] = useState<Expense | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isSavingPeople, setIsSavingPeople] = useState(false);
-  const [isLoadingTrips, setIsLoadingTrips] = useState(false);
   const [history, setHistory] = useState<TripHistoryItem[]>([]);
-  const [allTrips, setAllTrips] = useState<TripHistoryItem[]>([]);
   const [isLanguageModalOpen, setIsLanguageModalOpen] = useState(false);
   const [showConflictModal, setShowConflictModal] = useState(false);
   const [pendingExpenseData, setPendingExpenseData] = useState<Omit<Expense, 'id' | 'date'> | null>(null);
@@ -57,10 +54,6 @@ const AppContent: React.FC = () => {
     const storedMode = localStorage.getItem('tripshare_mode');
     if (storedMode === 'local') setIsLocalMode(true);
   }, []);
-
-  useEffect(() => {
-    if (view === 'ONBOARDING') fetchAllTrips();
-  }, [view, isLocalMode]);
 
   useEffect(() => {
     const handleHashChange = async () => {
@@ -98,22 +91,6 @@ const AppContent: React.FC = () => {
       localStorage.setItem('tripshare_history', JSON.stringify(updated));
       return updated;
     });
-  };
-
-  const fetchAllTrips = async () => {
-    if (isLocalMode) {
-      const localTrips = JSON.parse(localStorage.getItem('tripshare_local_index') || '[]');
-      setAllTrips(localTrips);
-      return;
-    }
-    if (!supabase) return;
-    setIsLoadingTrips(true);
-    try {
-      const { data } = await supabase.from('trips').select('id, name').limit(100);
-      setAllTrips((data || []).map(item => ({ id: item.id, name: item.name, lastVisited: 0 })));
-    } finally {
-      setIsLoadingTrips(false);
-    }
   };
 
   const fetchTrip = async (id: string) => {
@@ -310,7 +287,7 @@ const AppContent: React.FC = () => {
         </div>
       )}
       <main className="max-w-xl mx-auto px-4 py-8 md:py-12">
-        {view === 'ONBOARDING' && <Onboarding onCreate={handleCreateTrip} onOpenLanguage={() => setIsLanguageModalOpen(true)} history={history} allTrips={allTrips} isLoadingTrips={isLoadingTrips} />}
+        {view === 'ONBOARDING' && <Onboarding onCreate={handleCreateTrip} onOpenLanguage={() => setIsLanguageModalOpen(true)} history={history} />}
         {trip && view === 'PEOPLE_SETUP' && <PeopleManager people={trip.people} onSave={handleUpdatePeople} onCancel={() => setView('DASHBOARD')} isInitial={trip.people.length === 0} />}
         {trip && view === 'DASHBOARD' && (
           <Dashboard 
@@ -352,10 +329,13 @@ const AppContent: React.FC = () => {
   );
 };
 
-const App: React.FC = () => (
-  <LanguageProvider>
-    <AppContent />
-  </LanguageProvider>
-);
+// Added App component to wrap AppContent with LanguageProvider and fix the "Cannot find name 'App'" error.
+const App: React.FC = () => {
+  return (
+    <LanguageProvider>
+      <AppContent />
+    </LanguageProvider>
+  );
+};
 
 export default App;

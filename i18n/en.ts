@@ -14,6 +14,11 @@ export const en = {
     language: "Language",
     english: "English",
     swedish: "Swedish",
+    dutch: "Dutch",
+    spanish: "Spanish",
+    french: "French",
+    german: "German",
+    italian: "Italian",
   },
   onboarding: {
     newJourney: "Start a new journey",

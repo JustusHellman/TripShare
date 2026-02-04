@@ -2,9 +2,16 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { en } from './en';
 import { sv } from './sv';
+import { nl } from './nl';
+import { es } from './es';
+import { fr } from './fr';
+import { de } from './de';
+import { it } from './it';
 
-type Language = 'en' | 'sv';
+type Language = 'en' | 'sv' | 'nl' | 'es' | 'fr' | 'de' | 'it';
 type Translations = typeof en;
+
+const translations = { en, sv, nl, es, fr, de, it };
 
 interface LanguageContextType {
   language: Language;
@@ -12,14 +19,12 @@ interface LanguageContextType {
   t: Translations;
 }
 
-const translations = { en, sv };
-
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [language, setLanguageState] = useState<Language>(() => {
     const saved = localStorage.getItem('tripshare_lang');
-    return (saved as Language) || 'en';
+    return (translations as any)[saved || ''] ? (saved as Language) : 'en';
   });
 
   const setLanguage = (lang: Language) => {

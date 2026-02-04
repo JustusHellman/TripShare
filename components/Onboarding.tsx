@@ -8,11 +8,9 @@ interface Props {
   onCreate: (name: string, baseCurrency: string) => void;
   onOpenLanguage: () => void;
   history: TripHistoryItem[];
-  allTrips: TripHistoryItem[];
-  isLoadingTrips?: boolean;
 }
 
-const Onboarding: React.FC<Props> = ({ onCreate, onOpenLanguage, history, allTrips, isLoadingTrips }) => {
+const Onboarding: React.FC<Props> = ({ onCreate, onOpenLanguage, history }) => {
   const { t, language } = useTranslation();
   const [name, setName] = useState('');
   const [baseCurrency, setBaseCurrency] = useState('SEK');
@@ -30,17 +28,9 @@ const Onboarding: React.FC<Props> = ({ onCreate, onOpenLanguage, history, allTri
 
   const currentFlag = language === 'en' ? '🇬🇧' : '🇸🇪';
 
-  const historyIds = useMemo(() => new Set(history.map(h => h.id)), [history]);
-  
   const filteredHistory = useMemo(() => {
     return history.filter(h => h.name.toLowerCase().includes(searchQuery.toLowerCase()));
   }, [history, searchQuery]);
-
-  const filteredAllTrips = useMemo(() => {
-    return allTrips
-      .filter(at => !historyIds.has(at.id))
-      .filter(at => at.name.toLowerCase().includes(searchQuery.toLowerCase()));
-  }, [allTrips, historyIds, searchQuery]);
 
   const filteredCurrencies = ALL_CURRENCIES.filter(c => 
     c.code.toLowerCase().includes(currencySearchQuery.toLowerCase()) || 
@@ -128,8 +118,7 @@ const Onboarding: React.FC<Props> = ({ onCreate, onOpenLanguage, history, allTri
       <div className="space-y-6">
         <div className="flex flex-col space-y-4">
           <div className="flex items-center justify-between px-1">
-             <h2 className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500">{t.onboarding.allTrips}</h2>
-             {isLoadingTrips && <div className="w-3 h-3 border-2 border-slate-700 border-t-indigo-500 rounded-full animate-spin"></div>}
+             <h2 className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500">{t.onboarding.recentTrips}</h2>
           </div>
           
           <div className="relative">
@@ -147,7 +136,7 @@ const Onboarding: React.FC<Props> = ({ onCreate, onOpenLanguage, history, allTri
         </div>
 
         <div className="space-y-4 max-h-[60vh] overflow-y-auto no-scrollbar pb-12">
-          {filteredHistory.length > 0 && (
+          {filteredHistory.length > 0 ? (
             <div className="space-y-2">
               {filteredHistory.map(item => (
                 <button
@@ -159,7 +148,7 @@ const Onboarding: React.FC<Props> = ({ onCreate, onOpenLanguage, history, allTri
                     <div className="w-12 h-12 rounded-2xl bg-indigo-600/10 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">📍</div>
                     <div className="text-left min-w-0">
                        <span className="block font-black text-slate-100 truncate">{item.name}</span>
-                       <span className="block text-[9px] font-black uppercase tracking-widest text-indigo-500/60 mt-0.5">Visited Recently</span>
+                       <span className="block text-[9px] font-black uppercase tracking-widest text-indigo-500/60 mt-0.5">Visited Previously</span>
                     </div>
                   </div>
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-indigo-500/40 group-hover:text-indigo-400 transition-colors shrink-0" viewBox="0 0 20 20" fill="currentColor">
@@ -168,32 +157,12 @@ const Onboarding: React.FC<Props> = ({ onCreate, onOpenLanguage, history, allTri
                 </button>
               ))}
             </div>
-          )}
-
-          {filteredAllTrips.length > 0 ? (
-            <div className="space-y-2">
-              {filteredAllTrips.map(item => (
-                <button
-                  key={item.id}
-                  onClick={() => navigateToTrip(item.id)}
-                  className="w-full flex items-center justify-between p-5 bg-slate-900/40 border border-slate-800 rounded-[2rem] hover:bg-slate-800 hover:border-slate-700 transition-all group"
-                >
-                  <div className="flex items-center gap-4 min-w-0">
-                    <div className="w-12 h-12 rounded-2xl bg-slate-800 flex items-center justify-center text-xl grayscale group-hover:grayscale-0 transition-all">🌍</div>
-                    <span className="font-bold text-slate-300 group-hover:text-white truncate">{item.name}</span>
-                  </div>
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-slate-700 group-hover:text-slate-500 transition-colors shrink-0" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
-                  </svg>
-                </button>
-              ))}
-            </div>
-          ) : !isLoadingTrips && filteredHistory.length === 0 && (
+          ) : (
             <div className="py-20 text-center space-y-4 bg-slate-950/50 border-2 border-dashed border-slate-900 rounded-[3rem]">
                <span className="text-4xl opacity-20 block">🔭</span>
                <div className="space-y-1 px-8">
-                 <p className="text-slate-600 font-black text-sm uppercase tracking-widest">No trips found</p>
-                 <p className="text-slate-700 text-xs leading-relaxed">Try searching for another name or create a brand new journey above.</p>
+                 <p className="text-slate-600 font-black text-sm uppercase tracking-widest">No journeys found</p>
+                 <p className="text-slate-700 text-xs leading-relaxed">Create a brand new journey above or paste a link from a friend.</p>
                </div>
             </div>
           )}

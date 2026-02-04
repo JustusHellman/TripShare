@@ -1,0 +1,5 @@
+{
+  "name": "TripShare - Smart Expense Splitter",
+  "description": "A sophisticated trip expense manager that optimizes settlements so everyone pays at most one person, featuring dynamic 'split-all' handling and a seamless onboarding flow.",
+  "requestFramePermissions": []
+}

@@ -19,6 +19,9 @@ export const en = {
     french: "French",
     german: "German",
     italian: "Italian",
+    theme: "Theme",
+    light: "Light",
+    dark: "Dark",
   },
   onboarding: {
     newJourney: "Start a new journey",

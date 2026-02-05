@@ -1,5 +1,5 @@
 
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 import { en } from './en';
 import { sv } from './sv';
 import { nl } from './nl';
@@ -8,10 +8,11 @@ import { fr } from './fr';
 import { de } from './de';
 import { it } from './it';
 
-type Language = 'en' | 'sv' | 'nl' | 'es' | 'fr' | 'de' | 'it';
-type Translations = typeof en;
+export type Language = 'en' | 'sv' | 'nl' | 'es' | 'fr' | 'de' | 'it';
+export type Translations = typeof en;
 
-const translations = { en, sv, nl, es, fr, de, it };
+// Strict mapping ensures all language files satisfy the English schema
+const translations: Record<Language, Translations> = { en, sv, nl, es, fr, de, it };
 
 interface LanguageContextType {
   language: Language;
@@ -24,7 +25,8 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [language, setLanguageState] = useState<Language>(() => {
     const saved = localStorage.getItem('tripshare_lang');
-    return (translations as any)[saved || ''] ? (saved as Language) : 'en';
+    if (saved && (translations as any)[saved]) return saved as Language;
+    return 'en';
   });
 
   const setLanguage = (lang: Language) => {

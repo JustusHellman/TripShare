@@ -19,6 +19,9 @@ export const de = {
     french: "Französisch",
     german: "Deutsch",
     italian: "Italienisch",
+    theme: "Thema",
+    light: "Hell",
+    dark: "Dunkel",
   },
   onboarding: {
     newJourney: "Neue Reise starten",
@@ -70,7 +73,7 @@ export const de = {
     statsTitle: "Ausgabenanalyse",
     statsSubtitle: "Aufschlüsselung nach Kategorien für die gesamte Reise.",
     conflictTitle: "Konflikt erkannt",
-    conflictSubtitle: "Diese Ausgabe wurde von jemand anderem geändert, während du sie bearbeitet hast.",
+    conflictSubtitle: "Diese Ausgabe wurde von jemand anderem geändert, während du sie bearbeitet hast. Was willst du tun?",
     overwrite: "Änderungen überschreiben",
   },
   expenseForm: {

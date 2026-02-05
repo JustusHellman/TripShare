@@ -19,6 +19,9 @@ export const it = {
     french: "Francese",
     german: "Tedesco",
     italian: "Italiano",
+    theme: "Tema",
+    light: "Chiaro",
+    dark: "Scuro",
   },
   onboarding: {
     newJourney: "Inizia un nuovo viaggio",

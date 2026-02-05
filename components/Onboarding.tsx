@@ -1,16 +1,15 @@
 
 import React, { useState, useMemo } from 'react';
-import { TripHistoryItem } from '../types';
 import { useTranslation } from '../i18n/LanguageContext';
 import { ALL_CURRENCIES } from '../utils/calculations';
+import { useTrip } from '../contexts/TripContext';
 
 interface Props {
-  onCreate: (name: string, baseCurrency: string) => void;
   onOpenLanguage: () => void;
-  history: TripHistoryItem[];
 }
 
-const Onboarding: React.FC<Props> = ({ onCreate, onOpenLanguage, history }) => {
+const Onboarding: React.FC<Props> = ({ onOpenLanguage }) => {
+  const { history, actions } = useTrip();
   const { t, language } = useTranslation();
   const [name, setName] = useState('');
   const [baseCurrency, setBaseCurrency] = useState('SEK');
@@ -21,7 +20,7 @@ const Onboarding: React.FC<Props> = ({ onCreate, onOpenLanguage, history }) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (name.trim()) onCreate(name.trim(), baseCurrency);
+    if (name.trim()) actions.createTrip(name.trim(), baseCurrency);
   };
 
   const navigateToTrip = (id: string) => { window.location.hash = `#/trip/${id}`; };
@@ -39,7 +38,6 @@ const Onboarding: React.FC<Props> = ({ onCreate, onOpenLanguage, history }) => {
 
   return (
     <div className="flex flex-col space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
-      {/* Header */}
       <div className="flex justify-between items-center">
         <div className="space-y-0.5">
           <h1 className="text-4xl font-black tracking-tighter text-white">
@@ -55,7 +53,6 @@ const Onboarding: React.FC<Props> = ({ onCreate, onOpenLanguage, history }) => {
         </button>
       </div>
 
-      {/* Main Action: Create or Browse */}
       {!showCreateForm ? (
         <button 
           onClick={() => setShowCreateForm(true)}
@@ -114,7 +111,6 @@ const Onboarding: React.FC<Props> = ({ onCreate, onOpenLanguage, history }) => {
         </div>
       )}
 
-      {/* Existing Trips Section */}
       <div className="space-y-6">
         <div className="flex flex-col space-y-4">
           <div className="flex items-center justify-between px-1">
@@ -169,7 +165,6 @@ const Onboarding: React.FC<Props> = ({ onCreate, onOpenLanguage, history }) => {
         </div>
       </div>
 
-      {/* Currency Search Modal */}
       {isCurrencySearchOpen && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-950/90 backdrop-blur-md animate-in fade-in duration-200">
            <div className="bg-slate-900 border border-slate-800 rounded-[2rem] w-full max-w-sm flex flex-col max-h-[80vh] animate-in zoom-in-95 shadow-2xl">

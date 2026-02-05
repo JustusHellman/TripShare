@@ -1,6 +1,6 @@
 
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,26 +8,111 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
+      /* CENTRALIZED THEME COLORS - ONLY CHANGE THESE TO TWEAK COLORS */
+      :root {
+        /* Dark Mode (Default) */
+        --bg-primary: #020617;     /* slate-950 */
+        --bg-secondary: #0f172a;   /* slate-900 */
+        --bg-tertiary: #1e293b;    /* slate-800 */
+        --text-primary: #f8fafc;   /* slate-50 */
+        --text-secondary: #94a3b8; /* slate-400 */
+        --text-muted: #475569;     /* slate-600 */
+        --border-color: #1e293b;   /* slate-800 */
+        --accent-bg: #6366f1;      /* indigo-500 */
+        --accent-hover: #4f46e5;   /* indigo-600 */
+        --accent-fg: #ffffff;      /* white */
+        --card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+      }
+
+      .light {
+        /* Light Mode */
+        --bg-primary: #f8fafc;     /* slate-50 */
+        --bg-secondary: #ffffff;   /* white */
+        --bg-tertiary: #f1f5f9;    /* slate-100 */
+        --text-primary: #0f172a;   /* slate-900 */
+        --text-secondary: #475569; /* slate-600 */
+        --text-muted: #94a3b8;     /* slate-400 */
+        --border-color: #e2e8f0;   /* slate-200 */
+        --accent-bg: #4f46e5;      /* indigo-600 */
+        --accent-hover: #4338ca;   /* indigo-700 */
+        --accent-fg: #ffffff;      /* white */
+        --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      }
+
       body {
         font-family: 'Inter', sans-serif;
-        background-color: #020617; /* slate-950 */
-        color: #f1f5f9; /* slate-100 */
+        background-color: var(--bg-primary);
+        color: var(--text-primary);
+        -webkit-tap-highlight-color: transparent;
+        transition: background-color 0.3s ease, color 0.3s ease;
       }
+      
+      /* Standard Scrollbar */
       ::-webkit-scrollbar {
         width: 8px;
       }
       ::-webkit-scrollbar-track {
-        background: #020617;
+        background: var(--bg-primary);
       }
       ::-webkit-scrollbar-thumb {
-        background: #1e293b;
+        background: var(--bg-tertiary);
         border-radius: 4px;
       }
       ::-webkit-scrollbar-thumb:hover {
-        background: #334155;
+        background: var(--text-muted);
       }
+
+      /* Custom Animations */
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+      @keyframes zoomIn {
+        from { opacity: 0; transform: scale(0.95); }
+        to { opacity: 1; transform: scale(1); }
+      }
+      @keyframes slideInUp {
+        from { transform: translateY(10px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+      }
+      @keyframes slideInRight {
+        from { transform: translateX(20px); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+      }
+
+      .animate-fade-in { animation: fadeIn 0.4s ease-out forwards; }
+      .animate-zoom-in { animation: zoomIn 0.3s ease-out forwards; }
+      .animate-slide-up { animation: slideInUp 0.4s ease-out forwards; }
+      .animate-slide-right { animation: slideInRight 0.4s ease-out forwards; }
+
+      /* Visual feedback for buttons */
+      button:active {
+        transform: scale(0.97);
+        transition: transform 0.1s ease;
+      }
+      
+      .no-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+
+      /* Dynamic components using variables */
+      .bg-app-main { background-color: var(--bg-primary); }
+      .bg-app-card { background-color: var(--bg-secondary); }
+      .bg-app-tertiary { background-color: var(--bg-tertiary); }
+      .bg-app-accent { background-color: var(--accent-bg); }
+      .bg-app-accent:hover { background-color: var(--accent-hover); }
+      .text-app-primary { color: var(--text-primary); }
+      .text-app-secondary { color: var(--text-secondary); }
+      .text-app-muted { color: var(--text-muted); }
+      .text-app-accent-fg { color: var(--accent-fg); }
+      .border-app { border-color: var(--border-color); }
+      .shadow-app { box-shadow: var(--card-shadow); }
     </style>
 
 <link rel="stylesheet" href="/index.css">
@@ -42,7 +127,7 @@
   }
 }
 </script>
-  <script type="module" crossorigin src="./assets/index-V4RVo2Vz.js"></script>
+  <script type="module" crossorigin src="./assets/index-Cpp1X1yz.js"></script>
 </head>
   <body>
     <div id="root"></div>

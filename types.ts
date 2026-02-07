@@ -1,40 +1,51 @@
+export interface Location {
+  lat: number;
+  lng: number;
+}
 
-export interface Person {
+export interface User {
+  username: string;
+  id: string;
+  email?: string;
+}
+
+export interface Question {
+  id: string;
+  imageUrl: string;
+  location: Location;
+  title?: string;
+  locationSource?: 'IMAGE' | 'GPS' | 'DEFAULT' | 'MANUAL';
+  trailId?: string;
+}
+
+export interface Trail {
   id: string;
   name: string;
-  mergedWithId?: string; // ID of the person this person shares a balance with
+  questions: Question[];
+  creatorId: string;
+  lastUpdated: number;
+  startingView?: { center: Location; zoom: number };
 }
 
-export interface Expense {
-  id: string;
-  description: string;
-  category?: string;
-  amount: number; // The original amount in the original currency
-  currency: string;
-  exchangeRate: number; // 1 unit of currency = X units of base currency
-  paidById: string;
-  splitAmongIds: string[] | 'ALL';
-  date: number;
-}
-
-export interface Trip {
+export interface Player {
   id: string;
   name: string;
-  baseCurrency: string;
-  people: Person[];
-  expenses: Expense[];
+  color: string;
+  score: number;
+  lastGuess?: Location;
+  lastDistance?: number;
+  lastPointsGained?: number;
+  hasGuessed: boolean;
 }
 
-export interface Settlement {
-  from: string;
-  to: string;
-  amount: number;
-}
-
-export interface TripHistoryItem {
+export interface GameState {
   id: string;
-  name: string;
-  lastVisited: number;
+  status: 'LOBBY' | 'PLAYING' | 'COUNTDOWN' | 'RESULTS' | 'SCOREBOARD' | 'FINISHED';
+  questions: Question[];
+  currentQuestionIndex: number;
+  players: Player[];
+  hostId: string;
+  startingView?: { center: Location; zoom: number };
 }
 
-export type AppView = 'ONBOARDING' | 'PEOPLE_SETUP' | 'DASHBOARD' | 'ADD_EXPENSE' | 'EDIT_EXPENSE';
+export type AppView = 'HOME' | 'AUTH' | 'DASHBOARD' | 'CREATE' | 'LOBBY' | 'PLAYING' | 'JOIN';

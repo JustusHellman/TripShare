@@ -1,8 +1,5 @@
 {
-  "name": "Here & There - Custom Map Quiz",
-  "description": "A GeoGuessr-style game where you create your own quizzes by taking photos at real-world locations and challenge friends to guess them on a map.",
-  "requestFramePermissions": [
-    "camera",
-    "geolocation"
-  ]
+  "name": "TripShare - Smart Expense Splitter",
+  "description": "A sophisticated trip expense manager that optimizes settlements so everyone pays at most one person, featuring dynamic 'split-all' handling and a seamless onboarding flow.",
+  "requestFramePermissions": []
 }
